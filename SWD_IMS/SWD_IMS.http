@@ -1,0 +1,6 @@
+@SWD_IMS_HostAddress = http://localhost:5162
+
+GET {{SWD_IMS_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
