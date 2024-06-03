@@ -1,4 +1,4 @@
-﻿namespace SyllabusManagementAPI.Contracts
+﻿namespace SWD_IMS.Contracts
 {
     public interface ILoggerManager
     {

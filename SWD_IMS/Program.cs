@@ -1,10 +1,15 @@
 using SWD_IMS.Extensions;
+using System.Text.Json;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(opts =>
+{
+    opts.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+});;
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
 // Logger

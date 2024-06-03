@@ -1,5 +1,5 @@
 ﻿using SWD_IMS.Entities.DTO;
-using SyllabusManagementAPI.Contracts;
+using SWD_IMS.Contracts;
 using System.Net;
 
 namespace SWD_IMS.Middleware

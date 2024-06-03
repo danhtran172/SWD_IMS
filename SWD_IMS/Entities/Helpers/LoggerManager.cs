@@ -1,8 +1,8 @@
 ﻿using NLog;
-using SyllabusManagementAPI.Contracts;
+using SWD_IMS.Contracts;
 using ILogger = NLog.ILogger;
 
-namespace SyllabusManagementAPI.LoggerService
+namespace SWD_IMS.Entities.Helpers
 {
     /// <summary>
     /// Represents a logger manager that provides logging functionality.

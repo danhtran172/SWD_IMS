@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SWD_IMS.Exceptions.NotFoundExceptions
+namespace SWD_IMS.Entities.Exceptions.NotFoundExceptions
 {
     public sealed class InternNotFoundException : Exception
     {
