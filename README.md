@@ -36,8 +36,6 @@ MyApiProject/
 │   └── BusinessLogic.csproj
 │
 ├── MyApiProject.Data/
-│   ├── Contexts/
-│   │   └── ApplicationDbContext.cs
 │   ├── Interfaces/
 │   │   ├── IWeatherRepository.cs
 │   │   └── IOtherRepository.cs
@@ -50,6 +48,8 @@ MyApiProject/
 │   ├── Models/
 │   │   ├── WeatherForecast.cs
 │   │   └── OtherModels.cs
+│   ├── Contexts/
+│   │   └── ApplicationDbContext.cs
 │   └── Entities.csproj
 │
 └── MyApiProject.Common/
