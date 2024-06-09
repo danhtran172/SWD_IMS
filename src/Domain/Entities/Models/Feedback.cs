@@ -12,8 +12,8 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public double Rating { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public Interview Interview { get; set; } = null!;
-        public User Mentor { get; set; } = null!;
-        public TrainingProgram TrainingProgram { get; set; } = null!;
+        
+        public Intern Intern { get; set; } = new();
+        public TrainingProgram TrainingProgram { get; set; } = new();
     }
 }

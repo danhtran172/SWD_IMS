@@ -15,7 +15,7 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public string? Major { get; set; }
         public string? Experience { get; set; }
 
-        public User Mentor { get; set; } = null!;
-        public List<WorkResult> WorkResults { get; set; } = null!;
+        public List<Feedback> Feedbacks { get; set; } = new();
+        public List<WorkResult> WorkResults { get; set; } = new();
     }
 }

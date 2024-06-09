@@ -15,7 +15,6 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public DateTime UpdatedAt { get; set; }
 
         public TrainingProgram TrainingProgram { get; set; } = null!;
-        public User Mentor { get; set; } = null!;
-        public List<InternTask> InternTasks { get; set; } = new();
+        public List<TaskResult> TaskResults { get; set; } = new();
     }
 }

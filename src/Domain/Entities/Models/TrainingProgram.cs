@@ -17,6 +17,6 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public User Mentor { get; set; } = null!;
         public List<WorkResult> WorkResults { get; set; } = new();
         public List<Task> Tasks { get; set; } = new();
-        public List<Feedback> Feedbacks { get; set; } = new();
+        public List<Feedback> Feedbacks { get; set; } = new(); 
     }
 }

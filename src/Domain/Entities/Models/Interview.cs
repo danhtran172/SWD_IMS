@@ -15,8 +15,6 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
 
-        public User Interviewer { get; set; } = null!;
-        public User HRManager { get; set; } = null!;
         public Application Application { get; set; } = null!;
     }
 }

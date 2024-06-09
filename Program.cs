@@ -1,4 +1,6 @@
+using Microsoft.EntityFrameworkCore;
 using SWD_IMS.Extensions;
+using SWD_IMS.src.Infrastructure.Context;
 using System.Text.Json;
 
 
@@ -10,6 +12,10 @@ builder.Services.AddControllers().AddJsonOptions(opts =>
 {
     opts.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
 });;
+// Configue Connection String
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<SwdImsContext>(options => options.UseSqlServer(connectionString));
+
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
 // Logger

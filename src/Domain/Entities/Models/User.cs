@@ -11,15 +11,10 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public string FullName { get; set; } = null!;
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
-        public int RoleId = 1;
         public string Phone { get; set; } = null!;
 
         public Role Role { get; set; } = null!;
-        public List<Feedback> Feedbacks { get; set; } = new();
-        public List<Intern> Interns { get; set; } = new();
         public List<TrainingProgram> TrainingPrograms { get; set; } = new();
         public List<JobPosition> JobPositions { get; set; } = new();
-        public List<Task> Tasks { get; set; } = new();
-        public List<Interview> Interviews { get; set; } = new();
     }
 }

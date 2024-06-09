@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SWD_IMS.src.Domain.Entities.Models
 {
-    public class InternTask
+    public class TaskResult
     {
         public int Id { get; set; }
         public bool IsDone { get; set; }
