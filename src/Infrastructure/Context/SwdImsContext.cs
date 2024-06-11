@@ -62,6 +62,12 @@ namespace SWD_IMS.src.Infrastructure.Context
                     RoleId = 1,
                 }
             );
+            modelBuilder.Entity<TrainingProgram>(entity =>
+            {
+                entity.Property(e => e.Id).ValueGeneratedOnAdd().UseIdentityColumn();
+                entity.Property(e => e.CreatedAt).ValueGeneratedOnAdd().HasDefaultValueSql("CURRENT_TIMESTAMP");
+                entity.Property(e => e.UpdatedAt).ValueGeneratedOnUpdate().HasDefaultValueSql("CURRENT_TIMESTAMP");
+            });
         }
     }
 }

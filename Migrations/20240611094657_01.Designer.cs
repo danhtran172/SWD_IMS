@@ -12,7 +12,7 @@ using SWD_IMS.src.Infrastructure.Context;
 namespace SWD_IMS.Migrations
 {
     [DbContext(typeof(SwdImsContext))]
-    [Migration("20240611035844_01")]
+    [Migration("20240611094657_01")]
     partial class _01
     {
         /// <inheritdoc />
@@ -319,7 +319,9 @@ namespace SWD_IMS.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -332,7 +334,9 @@ namespace SWD_IMS.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnUpdate()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("Id");
 
