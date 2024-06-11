@@ -13,6 +13,7 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public DateTime Deadline { get; set; }
         public DateTime CreateAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public int TrainingProgramId { get; set; }
 
         public TrainingProgram TrainingProgram { get; set; } = null!;
         public List<TaskResult> TaskResults { get; set; } = new();

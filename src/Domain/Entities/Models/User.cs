@@ -12,6 +12,7 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public string Email { get; set; } = null!;
         public string Password { get; set; } = null!;
         public string Phone { get; set; } = null!;
+        public int RoleId { get; set; }
 
         public Role Role { get; set; } = null!;
         public List<TrainingProgram> TrainingPrograms { get; set; } = new();

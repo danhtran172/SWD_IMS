@@ -14,6 +14,7 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public string Status { get; set; } = null!;
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public int ApplicationId { get; set; }
 
         public Application Application { get; set; } = null!;
     }
