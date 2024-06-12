@@ -13,10 +13,11 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public string? Content { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
+        public int MentorId { get; set; }
 
         public User Mentor { get; set; } = null!;
         public List<WorkResult> WorkResults { get; set; } = new();
         public List<Task> Tasks { get; set; } = new();
-        public List<Feedback> Feedbacks { get; set; } = new(); 
+        public List<Feedback> Feedbacks { get; set; } = new();
     }
 }

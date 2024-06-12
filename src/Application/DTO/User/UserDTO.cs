@@ -2,10 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
-namespace SWD_IMS.src.Domain.Entities.Models
+namespace SWD_IMS.src.Application.DTO.User
 {
-    public class User
+    public class UserDTO
     {
         public int UserId { get; set; }
         public string FullName { get; set; } = null!;
@@ -13,9 +14,13 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public string Password { get; set; } = null!;
         public string Phone { get; set; } = null!;
         public int RoleId { get; set; }
-
-        public Role Role { get; set; } = null!;
-        public List<TrainingProgram> TrainingPrograms { get; set; } = new();
-        public List<JobPosition> JobPositions { get; set; } = new();
+    }
+    public class UserProfile : Profile
+    {
+        public UserProfile()
+        {
+            CreateMap<Domain.Entities.Models.User, UserDTO>()
+            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+        }
     }
 }

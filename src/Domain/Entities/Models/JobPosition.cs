@@ -12,6 +12,7 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
         public JobStatusEnum Status { get; set; } = JobStatusEnum.deactive;
+        public int UserId { get; set; }
 
         public User HRManager { get; set; } = null!;
         public List<Application> Applications { get; set; } = new();

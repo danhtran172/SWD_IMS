@@ -17,5 +17,6 @@ namespace SWD_IMS.src.Domain.Entities.Models
 
         public List<Feedback> Feedbacks { get; set; } = new();
         public List<WorkResult> WorkResults { get; set; } = new();
+        public List<TaskResult> TaskResults { get; set; } = new();
     }
 }

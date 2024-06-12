@@ -15,6 +15,7 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public string Resume { get; set; } = null!;
         public string? CoverLetter { get; set; }
         public string AppliedAt { get; set; } = null!;
+        public int JobPositionId { get; set; }
         public ApplicationStatusEnum Status { get; set; } = ApplicationStatusEnum.Pending;
         
         public JobPosition JobPosition { get; set; } = null!;

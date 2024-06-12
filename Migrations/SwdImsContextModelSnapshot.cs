@@ -185,9 +185,6 @@ namespace SWD_IMS.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("HRManagerUserId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -195,9 +192,12 @@ namespace SWD_IMS.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("HRManagerUserId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("JobPosition");
                 });
@@ -220,6 +220,28 @@ namespace SWD_IMS.Migrations
                     b.HasKey("RoleId");
 
                     b.ToTable("Roles");
+
+                    b.HasData(
+                        new
+                        {
+                            RoleId = 1,
+                            Name = "Admin"
+                        },
+                        new
+                        {
+                            RoleId = 2,
+                            Name = "Mentor"
+                        },
+                        new
+                        {
+                            RoleId = 3,
+                            Name = "Intern"
+                        },
+                        new
+                        {
+                            RoleId = 4,
+                            Name = "HRManager"
+                        });
                 });
 
             modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.Task", b =>
@@ -294,12 +316,14 @@ namespace SWD_IMS.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("MentorUserId")
+                    b.Property<int>("MentorId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -307,11 +331,13 @@ namespace SWD_IMS.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
+                        .ValueGeneratedOnUpdate()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MentorUserId");
+                    b.HasIndex("MentorId");
 
                     b.ToTable("TrainingPrograms");
                 });
@@ -348,6 +374,17 @@ namespace SWD_IMS.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = 1,
+                            Email = "SWD_IMS@gmail.com",
+                            FullName = "Admin",
+                            Password = "00000000",
+                            Phone = "0000000000",
+                            RoleId = 1
+                        });
                 });
 
             modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.WorkResult", b =>
@@ -357,6 +394,9 @@ namespace SWD_IMS.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("InternId")
                         .HasColumnType("int");
@@ -373,6 +413,9 @@ namespace SWD_IMS.Migrations
 
                     b.Property<int>("TrainingProgramId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -428,7 +471,7 @@ namespace SWD_IMS.Migrations
                 {
                     b.HasOne("SWD_IMS.src.Domain.Entities.Models.User", "HRManager")
                         .WithMany("JobPositions")
-                        .HasForeignKey("HRManagerUserId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -449,7 +492,7 @@ namespace SWD_IMS.Migrations
             modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.TaskResult", b =>
                 {
                     b.HasOne("SWD_IMS.src.Domain.Entities.Models.Intern", "Intern")
-                        .WithMany()
+                        .WithMany("TaskResults")
                         .HasForeignKey("InternId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -469,7 +512,7 @@ namespace SWD_IMS.Migrations
                 {
                     b.HasOne("SWD_IMS.src.Domain.Entities.Models.User", "Mentor")
                         .WithMany("TrainingPrograms")
-                        .HasForeignKey("MentorUserId")
+                        .HasForeignKey("MentorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -510,6 +553,8 @@ namespace SWD_IMS.Migrations
             modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.Intern", b =>
                 {
                     b.Navigation("Feedbacks");
+
+                    b.Navigation("TaskResults");
 
                     b.Navigation("WorkResults");
                 });

@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace SWD_IMS.Migrations
 {
     /// <inheritdoc />
@@ -75,14 +77,14 @@ namespace SWD_IMS.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<int>(type: "int", nullable: false),
-                    HRManagerUserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_JobPosition", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_JobPosition_Users_HRManagerUserId",
-                        column: x => x.HRManagerUserId,
+                        name: "FK_JobPosition_Users_UserId",
+                        column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -97,16 +99,16 @@ namespace SWD_IMS.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    MentorUserId = table.Column<int>(type: "int", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    MentorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TrainingPrograms", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TrainingPrograms_Users_MentorUserId",
-                        column: x => x.MentorUserId,
+                        name: "FK_TrainingPrograms_Users_MentorId",
+                        column: x => x.MentorId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Cascade);
@@ -124,8 +126,8 @@ namespace SWD_IMS.Migrations
                     Resume = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CoverLetter = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AppliedAt = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    JobPositionId = table.Column<int>(type: "int", nullable: false)
+                    JobPositionId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -201,6 +203,8 @@ namespace SWD_IMS.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Percentage = table.Column<double>(type: "float", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TrainingProgramId = table.Column<int>(type: "int", nullable: false),
                     InternId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -272,6 +276,22 @@ namespace SWD_IMS.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Roles",
+                columns: new[] { "RoleId", "Description", "Name" },
+                values: new object[,]
+                {
+                    { 1, null, "Admin" },
+                    { 2, null, "Mentor" },
+                    { 3, null, "Intern" },
+                    { 4, null, "HRManager" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Users",
+                columns: new[] { "UserId", "Email", "FullName", "Password", "Phone", "RoleId" },
+                values: new object[] { 1, "SWD_IMS@gmail.com", "Admin", "00000000", "0000000000", 1 });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Applications_JobPositionId",
                 table: "Applications",
@@ -293,9 +313,9 @@ namespace SWD_IMS.Migrations
                 column: "ApplicationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_JobPosition_HRManagerUserId",
+                name: "IX_JobPosition_UserId",
                 table: "JobPosition",
-                column: "HRManagerUserId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TaskResults_InternId",
@@ -313,9 +333,9 @@ namespace SWD_IMS.Migrations
                 column: "TrainingProgramId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrainingPrograms_MentorUserId",
+                name: "IX_TrainingPrograms_MentorId",
                 table: "TrainingPrograms",
-                column: "MentorUserId");
+                column: "MentorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_RoleId",
