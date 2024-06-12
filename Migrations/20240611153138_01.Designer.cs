@@ -12,7 +12,7 @@ using SWD_IMS.src.Infrastructure.Context;
 namespace SWD_IMS.Migrations
 {
     [DbContext(typeof(SwdImsContext))]
-    [Migration("20240611094657_01")]
+    [Migration("20240611153138_01")]
     partial class _01
     {
         /// <inheritdoc />

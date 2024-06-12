@@ -14,11 +14,13 @@ namespace SWD_IMS.src.Application.Services
     public class TrainingProgramService : ITrainingProgramService
     {
         private readonly ITrainingProgramRepository _trainingProgramRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
-        public TrainingProgramService(ITrainingProgramRepository trainingProgramRepository, IMapper mapper)
+        public TrainingProgramService(ITrainingProgramRepository trainingProgramRepository, IMapper mapper, IUserRepository userRepository)
         {
             _trainingProgramRepository = trainingProgramRepository;
             _mapper = mapper;
+            _userRepository = userRepository;
         }
 
         public async Task<ResponseDTO> CreateTrainingProgram(TrainingProgramCreateReqModel trainingProgramCreateReq)
@@ -27,6 +29,14 @@ namespace SWD_IMS.src.Application.Services
             try
             {
                 var mappedTrainingProgram = _mapper.Map<TrainingProgram>(trainingProgramCreateReq);
+                if (trainingProgramCreateReq.MentorId != null)
+                {
+                    var mentor = await _userRepository.GetUserById(trainingProgramCreateReq.MentorId.Value);
+                    if (mentor != null)
+                    {
+                        mappedTrainingProgram.Mentor = mentor;
+                    }
+                }
                 var result = await _trainingProgramRepository.CreateTrainingProgram(mappedTrainingProgram);
                 if (result)
                 {
@@ -49,9 +59,31 @@ namespace SWD_IMS.src.Application.Services
             return response;
         }
 
-        public Task<ResponseDTO> DeleteTrainingProgram(int id)
+        public async Task<ResponseDTO> DeleteTrainingProgram(int id)
         {
-            throw new NotImplementedException();
+            var response = new ResponseDTO();
+            try
+            {
+                var trainingProgram = await _trainingProgramRepository.GetTrainingProgramById(id);
+                var result = await _trainingProgramRepository.DeleteTrainingProgram(trainingProgram);
+                if (result)
+                {
+                    response.StatusCode = 200;
+                    response.Message = "Training program deleted successfully";
+                    response.IsSuccess = true;
+                }
+                else
+                {
+                    response.StatusCode = 400;
+                    response.Message = "Training program deletion failed";
+                    response.IsSuccess = false;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
         }
 
         public async Task<ResponseDTO> GetAllTrainingPrograms()
@@ -86,15 +118,41 @@ namespace SWD_IMS.src.Application.Services
             return response;
         }
 
-    public Task<ResponseDTO> GetTrainingProgramById(int id)
-    {
-        throw new NotImplementedException();
-    }
+        public async Task<ResponseDTO> GetTrainingProgramById(int id)
+        {
+            var response = new ResponseDTO();
+            try
+            {
+                var trainingProgram = await _trainingProgramRepository.GetTrainingProgramById(id);
+                var mappedTrainingProgram = _mapper.Map<TrainingProgramDTO>(trainingProgram);
+                if (mappedTrainingProgram != null)
+                {
+                    response.StatusCode = 200;
+                    response.Message = "Training program fetched successfully";
+                    response.IsSuccess = true;
+                    response.Result = new ResultDTO
+                    {
+                        Data = mappedTrainingProgram,
+                    };
+                }
+                else
+                {
+                    response.StatusCode = 404;
+                    response.Message = "Training program fetched faild";
+                    response.IsSuccess = false;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
+        }
 
 
-    public Task<ResponseDTO> UpdateTrainingProgram(TrainingProgramUpdateReqModel trainingProgram, int id)
-    {
-        throw new NotImplementedException();
+        public Task<ResponseDTO> UpdateTrainingProgram(TrainingProgramUpdateReqModel trainingProgram, int id)
+        {
+            throw new NotImplementedException();
+        }
     }
-}
 }

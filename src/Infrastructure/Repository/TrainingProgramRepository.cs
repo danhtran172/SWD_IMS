@@ -33,7 +33,13 @@ namespace SWD_IMS.src.Infrastructure.Repository
 
         public async Task<IEnumerable<TrainingProgram>> GetAllTrainingPrograms()
         {
-            return await _context.TrainingPrograms.ToListAsync();
+            var listTrainingPrograms = await _context.TrainingPrograms
+                .Include(x => x.Mentor)
+                .Include(x => x.WorkResults)
+                .Include(x => x.Tasks)
+                .Include(x => x.Feedbacks)
+                .ToListAsync();
+            return listTrainingPrograms;
         }
 
         public async Task<TrainingProgram> GetTrainingProgramById(int id)

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using SWD_IMS.src.Application.DTO.Task;
+using SWD_IMS.src.Application.DTO.User;
 using SWD_IMS.src.Domain.Entities.Models;
 
 namespace SWD_IMS.src.Application.DTO
@@ -15,9 +17,9 @@ namespace SWD_IMS.src.Application.DTO
         public string? Content { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public User Mentor { get; set; } = null!;
+        public UserDTO Mentor { get; set; } = null!;
         public List<WorkResult> WorkResults { get; set; } = new();
-        public List<Domain.Entities.Models.Task> Tasks { get; set; } = new();
+        public List<TaskDTO> Tasks { get; set; } = new();
         public List<Feedback> Feedbacks { get; set; } = new();
     }
 
@@ -42,6 +44,10 @@ namespace SWD_IMS.src.Application.DTO
             .ForMember(dest => dest.Feedbacks, opt => opt.Ignore())
             .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
             .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+            .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+            CreateMap<TrainingProgram, TrainingProgramDTO>()
+            .ForMember(dest => dest.Mentor, opt => opt.MapFrom(src => src.Mentor))
             .ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
         }
     }

@@ -43,5 +43,32 @@ namespace SWD_IMS.src.Application.Controller
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTrainingProgramById(int id)
+        {
+            try
+            {
+                var response = await _trainingProgramService.GetTrainingProgramById(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTrainingProgram(int id)
+        {
+            try
+            {
+                var response = await _trainingProgramService.DeleteTrainingProgram(id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }

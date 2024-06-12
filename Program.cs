@@ -42,7 +42,10 @@ builder.Services.AddControllers().AddJsonOptions(opts =>
 //         builder.Services.AddScoped(interfaceType, type);
 //     }
 // }
+//Configure Repository
 builder.Services.AddScoped<ITrainingProgramRepository, TrainingProgramRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+//Configure Service
 builder.Services.AddScoped<ITrainingProgramService, TrainingProgramService>();
 
 // Configue Connection String
