@@ -44,7 +44,12 @@ namespace SWD_IMS.src.Infrastructure.Repository
 
         public async Task<TrainingProgram> GetTrainingProgramById(int id)
         {
-            return await _context.TrainingPrograms.FirstOrDefaultAsync(x => x.Id == id) ?? throw new Exception("Training Program not found");
+            return await _context.TrainingPrograms
+                .Include(x => x.Mentor)
+                .Include(x => x.WorkResults)
+                .Include(x => x.Tasks)
+                .Include(x => x.Feedbacks)
+                .FirstOrDefaultAsync(x => x.Id == id) ?? throw new Exception("Training Program not found");
         }
 
         public async Task<bool> UpdateTrainingProgram(TrainingProgram trainingProgram)

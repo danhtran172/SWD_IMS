@@ -150,9 +150,41 @@ namespace SWD_IMS.src.Application.Services
         }
 
 
-        public Task<ResponseDTO> UpdateTrainingProgram(TrainingProgramUpdateReqModel trainingProgram, int id)
+        public async Task<ResponseDTO> UpdateTrainingProgram(TrainingProgramUpdateReqModel req, int id)
         {
-            throw new NotImplementedException();
+            var response = new ResponseDTO();
+            try
+            {
+                var trainingProgramToUpdate = await _trainingProgramRepository.GetTrainingProgramById(id);
+                if (trainingProgramToUpdate != null)
+                {
+                    var mappedTrainingProgram = _mapper.Map(req, trainingProgramToUpdate);
+                    var result = await _trainingProgramRepository.UpdateTrainingProgram(mappedTrainingProgram);
+                    if (result)
+                    {
+                        response.StatusCode = 200;
+                        response.Message = "Training program updated successfully";
+                        response.IsSuccess = true;
+                    }
+                    else
+                    {
+                        response.StatusCode = 400;
+                        response.Message = "Training program update failed";
+                        response.IsSuccess = false;
+                    }
+                }
+                else
+                {
+                    response.StatusCode = 404;
+                    response.Message = "Training program not found";
+                    response.IsSuccess = false;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+            return response;
         }
     }
 }
