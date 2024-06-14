@@ -16,7 +16,7 @@ namespace SWD_IMS.src.Application.DTO
         public string? Description { get; set; }
         public string? Content { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public UserDTO Mentor { get; set; } = null!;
         public List<WorkResult> WorkResults { get; set; } = new();
         public List<TaskDTO> Tasks { get; set; } = new();

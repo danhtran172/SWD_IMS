@@ -100,7 +100,7 @@ namespace SWD_IMS.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "CURRENT_TIMESTAMP"),
                     MentorId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -149,7 +149,7 @@ namespace SWD_IMS.Migrations
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rating = table.Column<double>(type: "float", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     InternId = table.Column<int>(type: "int", nullable: false),
                     TrainingProgramId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -180,7 +180,7 @@ namespace SWD_IMS.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Deadline = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreateAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TrainingProgramId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -204,7 +204,7 @@ namespace SWD_IMS.Migrations
                     Percentage = table.Column<double>(type: "float", nullable: false),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     TrainingProgramId = table.Column<int>(type: "int", nullable: false),
                     InternId = table.Column<int>(type: "int", nullable: true)
                 },
@@ -235,7 +235,7 @@ namespace SWD_IMS.Migrations
                     Quiz = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ApplicationId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

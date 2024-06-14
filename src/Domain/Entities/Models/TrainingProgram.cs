@@ -12,7 +12,7 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public string? Description { get; set; }
         public string? Content { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public int MentorId { get; set; }
 
         public User Mentor { get; set; } = null!;

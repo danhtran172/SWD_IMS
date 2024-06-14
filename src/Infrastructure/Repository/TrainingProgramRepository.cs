@@ -54,6 +54,7 @@ namespace SWD_IMS.src.Infrastructure.Repository
 
         public async Task<bool> UpdateTrainingProgram(TrainingProgram trainingProgram)
         {
+            trainingProgram.UpdatedAt = DateTime.Now;
             _context.TrainingPrograms.Update(trainingProgram);
             int result = await _context.SaveChangesAsync();
             return result > 0;

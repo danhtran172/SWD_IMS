@@ -12,7 +12,7 @@ using SWD_IMS.src.Infrastructure.Context;
 namespace SWD_IMS.Migrations
 {
     [DbContext(typeof(SwdImsContext))]
-    [Migration("20240611153138_01")]
+    [Migration("20240613035506_01")]
     partial class _01
     {
         /// <inheritdoc />
@@ -92,7 +92,7 @@ namespace SWD_IMS.Migrations
                     b.Property<int>("TrainingProgramId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -167,7 +167,7 @@ namespace SWD_IMS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -271,7 +271,7 @@ namespace SWD_IMS.Migrations
                     b.Property<int>("TrainingProgramId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -333,7 +333,7 @@ namespace SWD_IMS.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
@@ -417,7 +417,7 @@ namespace SWD_IMS.Migrations
                     b.Property<int>("TrainingProgramId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
