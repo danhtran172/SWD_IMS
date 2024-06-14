@@ -11,7 +11,7 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public string? Content { get; set; }
         public double Rating { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public int InternId { get; set; }
         public int TrainingProgramId { get; set; }
         public Intern Intern { get; set; } = new();

@@ -23,40 +23,41 @@ namespace SWD_IMS.src.Application.Services
             _userRepository = userRepository;
         }
 
-        public async Task<ResponseDTO> CreateTrainingProgram(TrainingProgramCreateReqModel trainingProgramCreateReq)
+        public async Task<ResponseDTO> CreateTrainingProgram(TrainingProgramCreateReqModel req)
         {
             var response = new ResponseDTO();
             try
             {
-                var mappedTrainingProgram = _mapper.Map<TrainingProgram>(trainingProgramCreateReq);
-                if (trainingProgramCreateReq.MentorId != null)
+                var mappedTrainingProgram = _mapper.Map<TrainingProgram>(req);
+                if (req.MentorId == null)
                 {
-                    var mentor = await _userRepository.GetUserById(trainingProgramCreateReq.MentorId.Value);
-                    if (mentor != null)
-                    {
-                        mappedTrainingProgram.Mentor = mentor;
-                    }
+                    response.StatusCode = 400;
+                    response.Message = "Mentor must not be null";
+                    response.IsSuccess = false;
+                    return response;
                 }
+                var mentor = await _userRepository.GetUserById(req.MentorId.Value);
+                mappedTrainingProgram.Mentor = mentor;
                 var result = await _trainingProgramRepository.CreateTrainingProgram(mappedTrainingProgram);
                 if (result)
                 {
                     response.StatusCode = 201;
                     response.Message = "Training program created successfully";
                     response.IsSuccess = true;
+                    return response;
                 }
                 else
                 {
                     response.StatusCode = 400;
                     response.Message = "Training program creation failed";
                     response.IsSuccess = false;
+                    return response;
                 }
             }
             catch
             {
                 throw;
             }
-
-            return response;
         }
 
         public async Task<ResponseDTO> DeleteTrainingProgram(int id)
@@ -71,19 +72,20 @@ namespace SWD_IMS.src.Application.Services
                     response.StatusCode = 200;
                     response.Message = "Training program deleted successfully";
                     response.IsSuccess = true;
+                    return response;
                 }
                 else
                 {
                     response.StatusCode = 400;
                     response.Message = "Training program deletion failed";
                     response.IsSuccess = false;
+                    return response;
                 }
             }
             catch
             {
                 throw;
             }
-            return response;
         }
 
         public async Task<ResponseDTO> GetAllTrainingPrograms()
@@ -103,19 +105,20 @@ namespace SWD_IMS.src.Application.Services
                         Data = mappedTrainingProgram,
                         Total = mappedTrainingProgram.Count()
                     };
+                    return response;
                 }
                 else
                 {
                     response.StatusCode = 404;
                     response.Message = "Training programs fetched faild";
                     response.IsSuccess = false;
+                    return response;
                 }
             }
             catch
             {
                 throw;
             }
-            return response;
         }
 
         public async Task<ResponseDTO> GetTrainingProgramById(int id)
@@ -134,25 +137,59 @@ namespace SWD_IMS.src.Application.Services
                     {
                         Data = mappedTrainingProgram,
                     };
+                    return response;
                 }
                 else
                 {
                     response.StatusCode = 404;
                     response.Message = "Training program fetched faild";
                     response.IsSuccess = false;
+                    return response;
                 }
             }
             catch
             {
                 throw;
             }
-            return response;
         }
 
 
-        public Task<ResponseDTO> UpdateTrainingProgram(TrainingProgramUpdateReqModel trainingProgram, int id)
+        public async Task<ResponseDTO> UpdateTrainingProgram(TrainingProgramUpdateReqModel req, int id)
         {
-            throw new NotImplementedException();
+            var response = new ResponseDTO();
+            try
+            {
+                var trainingProgramToUpdate = await _trainingProgramRepository.GetTrainingProgramById(id);
+                if (req.MentorId == null)
+                {
+                    response.StatusCode = 400;
+                    response.Message = "Mentor must not be null";
+                    response.IsSuccess = false;
+                    return response;
+                }
+                var mentor = await _userRepository.GetUserById(req.MentorId.Value);
+                var mappedTrainingProgram = _mapper.Map(req, trainingProgramToUpdate);
+                mappedTrainingProgram.Mentor = mentor;
+                var result = await _trainingProgramRepository.UpdateTrainingProgram(mappedTrainingProgram);
+                if (result)
+                {
+                    response.StatusCode = 200;
+                    response.Message = "Training program updated successfully";
+                    response.IsSuccess = true;
+                    return response;
+                }
+                else
+                {
+                    response.StatusCode = 400;
+                    response.Message = "Training program update failed";
+                    response.IsSuccess = false;
+                    return response;
+                }
+            }
+            catch
+            {
+                throw;
+            }
         }
     }
 }

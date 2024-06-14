@@ -32,7 +32,8 @@ namespace SWD_IMS.src.Application.Controller
             }
         }
         [HttpPost("create")]
-        public async Task<IActionResult> CreteTrainingProgram(TrainingProgramCreateReqModel req){
+        public async Task<IActionResult> CreteTrainingProgram(TrainingProgramCreateReqModel req)
+        {
             try
             {
                 var response = await _trainingProgramService.CreateTrainingProgram(req);
@@ -69,6 +70,18 @@ namespace SWD_IMS.src.Application.Controller
                 return BadRequest(ex.Message);
             }
         }
-
+        [HttpPost("update({id}")]
+        public async Task<IActionResult> UpdateTrainingProgram(int id, TrainingProgramUpdateReqModel req)
+        {
+            try
+            {
+                var response = await _trainingProgramService.UpdateTrainingProgram(req, id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

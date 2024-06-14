@@ -50,7 +50,7 @@ builder.Services.AddScoped<ITrainingProgramService, TrainingProgramService>();
 
 // Configue Connection String
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<SwdImsContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<SwdImsContext>(options => options.UseSqlServer(connectionString).LogTo(Console.WriteLine, LogLevel.Information));
 
 builder.Services.ConfigureCors();
 builder.Services.ConfigureIISIntegration();
