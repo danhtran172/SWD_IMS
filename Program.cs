@@ -47,7 +47,8 @@ builder.Services.AddScoped<ITrainingProgramRepository, TrainingProgramRepository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 //Configure Service
 builder.Services.AddScoped<ITrainingProgramService, TrainingProgramService>();
-
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IBCryptService, BCryptService>();
 // Configue Connection String
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<SwdImsContext>(options => options.UseSqlServer(connectionString).LogTo(Console.WriteLine, LogLevel.Information));

@@ -17,6 +17,11 @@ namespace SWD_IMS.src.Infrastructure.Repository
             _context = context;
         }
 
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(x => x.Email == email) ?? throw new Exception("Email not found");
+        }
+
         public async Task<User> GetUserById(int id)
         {
             return await _context.Users.FirstOrDefaultAsync(x => x.UserId == id) ?? throw new Exception("User not found");
