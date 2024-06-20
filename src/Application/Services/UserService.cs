@@ -29,7 +29,7 @@ namespace SWD_IMS.src.Application.Services
 
             // Implement password hashing logic here (e.g., using bcrypt)
             // Replace with your actual password validation logic
-            if (_cryptService.VerifyPassword(password, user.Password))
+            if (BCrypt.Net.BCrypt.EnhancedVerify(password, BCrypt.Net.BCrypt.EnhancedHashPassword(user.Password,12)))
             {
                 return new ResponseDTO { IsSuccess = true, Message = "Valid user" };
             }
