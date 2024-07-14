@@ -101,7 +101,9 @@ namespace SWD_IMS.Migrations
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    MentorId = table.Column<int>(type: "int", nullable: false)
+                    MentorId = table.Column<int>(type: "int", nullable: false),
+                    StartDate = table.Column<DateOnly>(type: "date", nullable: true),
+                    Duration = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -195,7 +197,7 @@ namespace SWD_IMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "WorkResults",
+                name: "TrainingProgramInterns",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -210,14 +212,14 @@ namespace SWD_IMS.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WorkResults", x => x.Id);
+                    table.PrimaryKey("PK_TrainingProgramInterns", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_WorkResults_Interns_InternId",
+                        name: "FK_TrainingProgramInterns_Interns_InternId",
                         column: x => x.InternId,
                         principalTable: "Interns",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_WorkResults_TrainingPrograms_TrainingProgramId",
+                        name: "FK_TrainingProgramInterns_TrainingPrograms_TrainingProgramId",
                         column: x => x.TrainingProgramId,
                         principalTable: "TrainingPrograms",
                         principalColumn: "Id",
@@ -250,7 +252,7 @@ namespace SWD_IMS.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TaskResults",
+                name: "TaskInterns",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -261,15 +263,15 @@ namespace SWD_IMS.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TaskResults", x => x.Id);
+                    table.PrimaryKey("PK_TaskInterns", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TaskResults_Interns_InternId",
+                        name: "FK_TaskInterns_Interns_InternId",
                         column: x => x.InternId,
                         principalTable: "Interns",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_TaskResults_Tasks_TaskId",
+                        name: "FK_TaskInterns_Tasks_TaskId",
                         column: x => x.TaskId,
                         principalTable: "Tasks",
                         principalColumn: "Id",
@@ -318,18 +320,28 @@ namespace SWD_IMS.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TaskResults_InternId",
-                table: "TaskResults",
+                name: "IX_TaskInterns_InternId",
+                table: "TaskInterns",
                 column: "InternId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TaskResults_TaskId",
-                table: "TaskResults",
+                name: "IX_TaskInterns_TaskId",
+                table: "TaskInterns",
                 column: "TaskId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_TrainingProgramId",
                 table: "Tasks",
+                column: "TrainingProgramId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TrainingProgramInterns_InternId",
+                table: "TrainingProgramInterns",
+                column: "InternId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TrainingProgramInterns_TrainingProgramId",
+                table: "TrainingProgramInterns",
                 column: "TrainingProgramId");
 
             migrationBuilder.CreateIndex(
@@ -341,16 +353,6 @@ namespace SWD_IMS.Migrations
                 name: "IX_Users_RoleId",
                 table: "Users",
                 column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_WorkResults_InternId",
-                table: "WorkResults",
-                column: "InternId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_WorkResults_TrainingProgramId",
-                table: "WorkResults",
-                column: "TrainingProgramId");
         }
 
         /// <inheritdoc />
@@ -363,10 +365,10 @@ namespace SWD_IMS.Migrations
                 name: "Interviews");
 
             migrationBuilder.DropTable(
-                name: "TaskResults");
+                name: "TaskInterns");
 
             migrationBuilder.DropTable(
-                name: "WorkResults");
+                name: "TrainingProgramInterns");
 
             migrationBuilder.DropTable(
                 name: "Applications");

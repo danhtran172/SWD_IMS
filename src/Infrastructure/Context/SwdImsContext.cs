@@ -20,12 +20,12 @@ namespace SWD_IMS.src.Infrastructure.Context
         public DbSet<Domain.Entities.Models.Application> Applications { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Intern> Interns { get; set; }
-        public DbSet<TaskResult> TaskResults { get; set; }
+        public DbSet<TaskIntern> TaskInterns { get; set; }
         public DbSet<Interview> Interviews { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<Domain.Entities.Models.Task> Tasks { get; set; }
         public DbSet<TrainingProgram> TrainingPrograms { get; set; }
-        public DbSet<WorkResult> WorkResults { get; set; }
+        public DbSet<TrainingProgramIntern> TrainingProgramInterns { get; set; }
         public DbSet<User> Users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

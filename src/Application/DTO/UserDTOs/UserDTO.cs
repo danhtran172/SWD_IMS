@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 
-namespace SWD_IMS.src.Application.DTO.User
+namespace SWD_IMS.src.Application.DTO.UserDTOs
 {
     public class UserDTO
     {

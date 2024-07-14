@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using SWD_IMS.Contracts;
 using SWD_IMS.Entities.Helpers;
 using SWD_IMS.Middleware;
@@ -9,11 +6,6 @@ using SWD_IMS.Repository;
 using SWD_IMS.ServiceContracts;
 using SWD_IMS.Services;
 using SWD_IMS.src.Infrastructure.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SWD_IMS.Extensions
 {

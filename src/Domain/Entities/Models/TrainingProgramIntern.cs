@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SWD_IMS.src.Domain.Entities.Models
 {
-    public class WorkResult
+    public class TrainingProgramIntern
     {
 
         public int Id { get; set; }

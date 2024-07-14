@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SWD_IMS.src.Application.DTO.TrainingProgramDTOs;
 using SWD_IMS.src.Domain.Entities.Models;
 using SWD_IMS.src.Domain.RepositoryContracts;
 using SWD_IMS.src.Infrastructure.Context;
@@ -35,7 +36,7 @@ namespace SWD_IMS.src.Infrastructure.Repository
         {
             var listTrainingPrograms = await _context.TrainingPrograms
                 .Include(x => x.Mentor)
-                .Include(x => x.WorkResults)
+                .Include(x => x.TrainingProgramInterns)
                 .Include(x => x.Tasks)
                 .Include(x => x.Feedbacks)
                 .ToListAsync();
@@ -46,10 +47,48 @@ namespace SWD_IMS.src.Infrastructure.Repository
         {
             return await _context.TrainingPrograms
                 .Include(x => x.Mentor)
-                .Include(x => x.WorkResults)
+                .Include(x => x.TrainingProgramInterns)
                 .Include(x => x.Tasks)
                 .Include(x => x.Feedbacks)
                 .FirstOrDefaultAsync(x => x.Id == id) ?? throw new Exception("Training Program not found");
+        }
+
+        public async Task<IEnumerable<TrainingProgram>> GetTrainingProgramsByFilter(TrainingProgramFilterDTO filter)
+        {
+            var query = _context.TrainingPrograms
+                .Include(x => x.Mentor)
+                .Include(x => x.TrainingProgramInterns)
+                .Include(x => x.Tasks)
+                .Include(x => x.Feedbacks)
+                .AsQueryable();
+            if (!string.IsNullOrEmpty(filter.Name))
+            {
+                query = query.Where(x => x.Name.Contains(filter.Name));
+            }
+            if (!string.IsNullOrEmpty(filter.Content))
+            {
+                query = query.Where(x => x.Content != null && x.Content.Contains(filter.Content));
+            }
+            if (filter.StartDate != null)
+            {
+                query = query.Where(x => x.StartDate >= filter.StartDate);
+            }
+            if (filter.Duration != null)
+            {
+                query = query.Where(x => x.Duration == filter.Duration);
+            }
+            return await query.ToListAsync();
+        }
+
+        public async Task<IEnumerable<TrainingProgram>> GetTrainingProgramsByMentorId(int mentorId)
+        {
+            var query = _context.TrainingPrograms
+                .Include(x => x.Mentor)
+                .Include(x => x.TrainingProgramInterns)
+                .Include(x => x.Tasks)
+                .Include(x => x.Feedbacks)
+                .Where(x => x.MentorId == mentorId);
+            return await query.ToListAsync();
         }
 
         public async Task<bool> UpdateTrainingProgram(TrainingProgram trainingProgram)

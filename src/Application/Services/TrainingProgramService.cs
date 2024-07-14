@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using SWD_IMS.Entities.DTO;
-using SWD_IMS.src.Application.DTO;
+using SWD_IMS.src.Application.DTO.TrainingProgramDTOs;
 using SWD_IMS.src.Domain.Entities.Models;
 using SWD_IMS.src.Domain.RepositoryContracts;
 using SWD_IMS.src.Domain.ServiceContracts;
@@ -23,12 +23,11 @@ namespace SWD_IMS.src.Application.Services
             _userRepository = userRepository;
         }
 
-        public async Task<ResponseDTO> CreateTrainingProgram(TrainingProgramCreateReqModel req)
+        public async Task<ResponseDTO> CreateTrainingProgram(TrainingProgramCreateDTO req)
         {
             var response = new ResponseDTO();
             try
             {
-                var mappedTrainingProgram = _mapper.Map<TrainingProgram>(req);
                 if (req.MentorId == null)
                 {
                     response.StatusCode = 400;
@@ -37,7 +36,10 @@ namespace SWD_IMS.src.Application.Services
                     return response;
                 }
                 var mentor = await _userRepository.GetUserById(req.MentorId.Value);
+
+                var mappedTrainingProgram = _mapper.Map<TrainingProgram>(req);
                 mappedTrainingProgram.Mentor = mentor;
+                
                 var result = await _trainingProgramRepository.CreateTrainingProgram(mappedTrainingProgram);
                 if (result)
                 {
@@ -153,23 +155,85 @@ namespace SWD_IMS.src.Application.Services
             }
         }
 
+        public async Task<ResponseDTO> GetTrainingProgramsByFilter(TrainingProgramFilterDTO filter)
+        {
+            var response = new ResponseDTO();
+            try
+            {
+                var listTrainingProgram = await _trainingProgramRepository.GetTrainingProgramsByFilter(filter);
+                var mappedTrainingProgram = _mapper.Map<IEnumerable<TrainingProgramDTO>>(listTrainingProgram);
+                if (mappedTrainingProgram != null)
+                {
+                    response.StatusCode = 200;
+                    response.Message = "Training programs fetched successfully";
+                    response.IsSuccess = true;
+                    response.Result = new ResultDTO
+                    {
+                        Data = mappedTrainingProgram,
+                        Total = mappedTrainingProgram.Count()
+                    };
+                    return response;
+                }
+                else
+                {
+                    response.StatusCode = 404;
+                    response.Message = "Training programs fetched faild";
+                    response.IsSuccess = false;
+                    return response;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
 
-        public async Task<ResponseDTO> UpdateTrainingProgram(TrainingProgramUpdateReqModel req, int id)
+        public async Task<ResponseDTO> GetTrainingProgramsByMentorId(int mentorId)
+        {
+            var response = new ResponseDTO();
+            try
+            {
+                var listTrainingProgram = await _trainingProgramRepository.GetTrainingProgramsByMentorId(mentorId);
+                var mappedTrainingProgram = _mapper.Map<IEnumerable<TrainingProgramDTO>>(listTrainingProgram);
+                if (mappedTrainingProgram != null)
+                {
+                    response.StatusCode = 200;
+                    response.Message = "Training programs fetched successfully";
+                    response.IsSuccess = true;
+                    response.Result = new ResultDTO
+                    {
+                        Data = mappedTrainingProgram,
+                        Total = mappedTrainingProgram.Count()
+                    };
+                    return response;
+                }
+                else
+                {
+                    response.StatusCode = 404;
+                    response.Message = "Training programs fetched faild";
+                    response.IsSuccess = false;
+                    return response;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<ResponseDTO> UpdateTrainingProgram(TrainingProgramUpdateDTO req, int id)
         {
             var response = new ResponseDTO();
             try
             {
                 var trainingProgramToUpdate = await _trainingProgramRepository.GetTrainingProgramById(id);
-                if (req.MentorId == null)
-                {
-                    response.StatusCode = 400;
-                    response.Message = "Mentor must not be null";
-                    response.IsSuccess = false;
-                    return response;
-                }
-                var mentor = await _userRepository.GetUserById(req.MentorId.Value);
                 var mappedTrainingProgram = _mapper.Map(req, trainingProgramToUpdate);
-                mappedTrainingProgram.Mentor = mentor;
+                if (req.MentorId != null)
+                {
+                    var mentor = await _userRepository.GetUserById(req.MentorId.Value);
+                    mappedTrainingProgram.Mentor = mentor;
+                    mappedTrainingProgram.MentorId = mentor.UserId;
+                }
                 var result = await _trainingProgramRepository.UpdateTrainingProgram(mappedTrainingProgram);
                 if (result)
                 {
