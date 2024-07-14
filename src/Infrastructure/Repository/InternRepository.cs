@@ -50,7 +50,7 @@ namespace SWD_IMS.src.Infrastructure.Repository
                 .FirstOrDefaultAsync(x => x.Id == id) ?? throw new Exception("Intern not found");
         }
 
-        public async Task<IEnumerable<Intern>> GetInternsByFilter(InternFilterDTO internFilter)
+        public async Task<InternList> GetInternsByFilter(InternFilterDTO internFilter)
         {
             var query = _context.Interns.AsQueryable();
             if (!string.IsNullOrEmpty(internFilter.University))
@@ -65,7 +65,16 @@ namespace SWD_IMS.src.Infrastructure.Repository
             {
                 query = query.Where(x => x.Experience == internFilter.Experience);
             }
-            return await query.ToListAsync();
+            var paginationList = query
+            .OrderByDescending(x => x.Id)
+            .Skip((internFilter.Page - 1) * internFilter.PageSize)
+            .Take(internFilter.PageSize);
+            var internList = new InternList
+            {
+                Interns = await paginationList.ToListAsync(),
+                TotalCount = await query.CountAsync()
+            };
+            return internList;
         }
 
         public async Task<bool> UpdateIntern(Intern intern)

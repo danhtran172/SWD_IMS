@@ -86,12 +86,12 @@ namespace SWD_IMS.src.Infrastructure.Repository
             .Skip((filter.Page - 1) * filter.PageSize)
             .Take(filter.PageSize)
             .ToListAsync();
-            var listTrainingPrograms = new TrainingProgramList
+            var trainingProgramList = new TrainingProgramList
             {
                 TrainingPrograms = await paginationList,
                 TotalCount = await query.CountAsync()
             };
-            return listTrainingPrograms;
+            return trainingProgramList;
         }
 
         public async Task<bool> UpdateTrainingProgram(TrainingProgram trainingProgram)
