@@ -153,7 +153,7 @@ namespace SWD_IMS.src.Application.Services
             try
             {
                 var listIntern = await _internRepository.GetInternsByFilter(filter);
-                var mappedIntern = _mapper.Map<List<InternDTO>>(listIntern);
+                var mappedIntern = _mapper.Map<List<InternDTO>>(listIntern.Interns);
                 if (mappedIntern != null)
                 {
                     response.StatusCode = 200;

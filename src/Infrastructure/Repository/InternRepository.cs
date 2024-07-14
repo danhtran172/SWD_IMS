@@ -66,12 +66,12 @@ namespace SWD_IMS.src.Infrastructure.Repository
                 query = query.Where(x => x.Experience == internFilter.Experience);
             }
             var paginationList = query
-            .OrderByDescending(x => x.Id)
             .Skip((internFilter.Page - 1) * internFilter.PageSize)
-            .Take(internFilter.PageSize);
+            .Take(internFilter.PageSize)
+            .ToListAsync();
             var internList = new InternList
             {
-                Interns = await paginationList.ToListAsync(),
+                Interns = await paginationList,
                 TotalCount = await query.CountAsync()
             };
             return internList;
