@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using SWD_IMS.src.Application.DTO.InternDTOs;
 using SWD_IMS.src.Domain.Entities.Models;
 using SWD_IMS.src.Domain.RepositoryContracts;
 using SWD_IMS.src.Infrastructure.Context;
@@ -47,6 +48,24 @@ namespace SWD_IMS.src.Infrastructure.Repository
                 .Include(x => x.TrainingProgramInterns)
                 .Include(x => x.TaskInterns)
                 .FirstOrDefaultAsync(x => x.Id == id) ?? throw new Exception("Intern not found");
+        }
+
+        public async Task<IEnumerable<Intern>> GetInternsByFilter(InternFilterDTO internFilter)
+        {
+            var query = _context.Interns.AsQueryable();
+            if (!string.IsNullOrEmpty(internFilter.University))
+            {
+                query = query.Where(x => x.University == internFilter.University);
+            }
+            if (!string.IsNullOrEmpty(internFilter.Major))
+            {
+                query = query.Where(x => x.Major == internFilter.Major);
+            }
+            if (!string.IsNullOrEmpty(internFilter.Experience))
+            {
+                query = query.Where(x => x.Experience == internFilter.Experience);
+            }
+            return await query.ToListAsync();
         }
 
         public async Task<bool> UpdateIntern(Intern intern)

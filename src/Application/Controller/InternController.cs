@@ -10,7 +10,9 @@ using SWD_IMS.src.Domain.ServiceContracts;
 
 namespace SWD_IMS.src.Application.Controller
 {
-    [Route("[controller]")]
+    [Produces("application/json")]
+    [ApiController]
+    [Route("api/interns")]
     public class InternController : ControllerBase
     {
         private readonly ILogger<InternController> _logger;
@@ -72,12 +74,25 @@ namespace SWD_IMS.src.Application.Controller
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPost("update({id}")]
+        [HttpPost("update/{id}")]
         public async Task<IActionResult> UpdateIntern(InternUpdateDTO req, int id)
         {
             try
             {
                 var response = await _internService.UpdateIntern(req, id);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("filter")]
+        public async Task<IActionResult> GetInternsByFilter(InternFilterDTO internFilter)
+        {
+            try
+            {
+                var response = await _internService.GetInternsByFilter(internFilter);
                 return Ok(response);
             }
             catch (Exception ex)

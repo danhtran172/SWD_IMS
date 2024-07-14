@@ -31,7 +31,7 @@ namespace SWD_IMS.src.Application.Services
                 var result = await _internRepository.CreateIntern(mappedIntern);
                 if (result)
                 {
-                    response.StatusCode = 201;
+                    response.StatusCode = 200;
                     response.Message = "Intern created successfully";
                     response.IsSuccess = true;
                     return response;
@@ -86,7 +86,7 @@ namespace SWD_IMS.src.Application.Services
             {
                 var listIntern = await _internRepository.GetAllInterns();
                 var mappedIntern = _mapper.Map<List<InternDTO>>(listIntern);
-                if (mappedIntern.Count > 0)
+                if (mappedIntern != null)
                 {
                     response.StatusCode = 200;
                     response.Message = "Interns fetched successfully";
@@ -127,6 +127,39 @@ namespace SWD_IMS.src.Application.Services
                     response.Result = new ResultDTO
                     {
                         Data = mappedIntern,
+                    };
+                    return response;
+                }
+                else
+                {
+                    response.StatusCode = 404;
+                    response.Message = "Intern fetched failed";
+                    response.IsSuccess = false;
+                    return response;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<ResponseDTO> GetInternsByFilter(InternFilterDTO internFilter)
+        {
+            var response = new ResponseDTO();
+            try
+            {
+                var listIntern = await _internRepository.GetInternsByFilter(internFilter);
+                var mappedIntern = _mapper.Map<List<InternDTO>>(listIntern);
+                if (mappedIntern != null)
+                {
+                    response.StatusCode = 200;
+                    response.Message = "Interns fetched successfully";
+                    response.IsSuccess = true;
+                    response.Result = new ResultDTO
+                    {
+                        Data = mappedIntern,
+                        Total = mappedIntern.Count
                     };
                     return response;
                 }
