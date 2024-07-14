@@ -45,8 +45,10 @@ builder.Services.AddControllers().AddJsonOptions(opts =>
 //Configure Repository
 builder.Services.AddScoped<ITrainingProgramRepository, TrainingProgramRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IInternRepository, InternRepository>();
 //Configure Service
 builder.Services.AddScoped<ITrainingProgramService, TrainingProgramService>();
+builder.Services.AddScoped<IInternService, InternService>();
 
 // Configue Connection String
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
