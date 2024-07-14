@@ -16,6 +16,5 @@ namespace SWD_IMS.src.Domain.ServiceContracts
         public Task<ResponseDTO> UpdateTrainingProgram(TrainingProgramUpdateDTO trainingProgram, int id);
         public Task<ResponseDTO> DeleteTrainingProgram(int id);
         public Task<ResponseDTO> GetTrainingProgramsByFilter(TrainingProgramFilterDTO filter);
-        public Task<ResponseDTO> GetTrainingProgramsByMentorId(int mentorId);
     }
 }

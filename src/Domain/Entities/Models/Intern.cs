@@ -19,4 +19,9 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public List<TrainingProgramIntern> TrainingProgramInterns { get; set; } = new();
         public List<TaskIntern> TaskInterns { get; set; } = new();
     }
+    public class InternList
+    {
+        public List<Intern> Interns { get; set; } = new List<Intern>();
+        public int TotalCount { get; set; }
+    }
 }

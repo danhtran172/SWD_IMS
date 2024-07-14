@@ -105,7 +105,10 @@ namespace SWD_IMS.src.Application.Services
                     response.Result = new ResultDTO
                     {
                         Data = mappedTrainingProgram,
-                        Total = mappedTrainingProgram.Count()
+                        PageInfo = new PageInfo
+                        {
+                            Total = mappedTrainingProgram.Count()
+                        }
                     };
                     return response;
                 }
@@ -161,7 +164,7 @@ namespace SWD_IMS.src.Application.Services
             try
             {
                 var listTrainingProgram = await _trainingProgramRepository.GetTrainingProgramsByFilter(filter);
-                var mappedTrainingProgram = _mapper.Map<IEnumerable<TrainingProgramDTO>>(listTrainingProgram);
+                var mappedTrainingProgram = _mapper.Map<IEnumerable<TrainingProgramDTO>>(listTrainingProgram.TrainingPrograms);
                 if (mappedTrainingProgram != null)
                 {
                     response.StatusCode = 200;
@@ -170,40 +173,13 @@ namespace SWD_IMS.src.Application.Services
                     response.Result = new ResultDTO
                     {
                         Data = mappedTrainingProgram,
-                        Total = mappedTrainingProgram.Count()
-                    };
-                    return response;
-                }
-                else
-                {
-                    response.StatusCode = 404;
-                    response.Message = "Training programs fetched faild";
-                    response.IsSuccess = false;
-                    return response;
-                }
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        public async Task<ResponseDTO> GetTrainingProgramsByMentorId(int mentorId)
-        {
-            var response = new ResponseDTO();
-            try
-            {
-                var listTrainingProgram = await _trainingProgramRepository.GetTrainingProgramsByMentorId(mentorId);
-                var mappedTrainingProgram = _mapper.Map<IEnumerable<TrainingProgramDTO>>(listTrainingProgram);
-                if (mappedTrainingProgram != null)
-                {
-                    response.StatusCode = 200;
-                    response.Message = "Training programs fetched successfully";
-                    response.IsSuccess = true;
-                    response.Result = new ResultDTO
-                    {
-                        Data = mappedTrainingProgram,
-                        Total = mappedTrainingProgram.Count()
+                        PageInfo = new PageInfo
+                        {
+                            Page = filter.Page,
+                            PageSize = filter.PageSize,
+                            HasNextPage = filter.Page * filter.PageSize < listTrainingProgram.TotalCount,
+                            Total = listTrainingProgram.TotalCount
+                        }
                     };
                     return response;
                 }

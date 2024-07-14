@@ -94,7 +94,10 @@ namespace SWD_IMS.src.Application.Services
                     response.Result = new ResultDTO
                     {
                         Data = mappedIntern,
-                        Total = mappedIntern.Count
+                        PageInfo = new PageInfo
+                        {
+                            Total = mappedIntern.Count
+                        }
                     };
                     return response;
                 }
@@ -144,13 +147,13 @@ namespace SWD_IMS.src.Application.Services
             }
         }
 
-        public async Task<ResponseDTO> GetInternsByFilter(InternFilterDTO internFilter)
+        public async Task<ResponseDTO> GetInternsByFilter(InternFilterDTO filter)
         {
             var response = new ResponseDTO();
             try
             {
-                var listIntern = await _internRepository.GetInternsByFilter(internFilter);
-                var mappedIntern = _mapper.Map<List<InternDTO>>(listIntern);
+                var listIntern = await _internRepository.GetInternsByFilter(filter);
+                var mappedIntern = _mapper.Map<List<InternDTO>>(listIntern.Interns);
                 if (mappedIntern != null)
                 {
                     response.StatusCode = 200;
@@ -159,7 +162,13 @@ namespace SWD_IMS.src.Application.Services
                     response.Result = new ResultDTO
                     {
                         Data = mappedIntern,
-                        Total = mappedIntern.Count
+                        PageInfo = new PageInfo
+                        {
+                            Page = filter.Page,
+                            PageSize = filter.PageSize,
+                            HasNextPage = filter.Page * filter.PageSize < listIntern.TotalCount,
+                            Total = listIntern.TotalCount
+                        }
                     };
                     return response;
                 }
