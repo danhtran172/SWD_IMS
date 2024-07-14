@@ -12,7 +12,7 @@ using SWD_IMS.src.Infrastructure.Context;
 namespace SWD_IMS.Migrations
 {
     [DbContext(typeof(SwdImsContext))]
-    [Migration("20240613035506_01")]
+    [Migration("20240714070259_01")]
     partial class _01
     {
         /// <inheritdoc />
@@ -281,7 +281,7 @@ namespace SWD_IMS.Migrations
                     b.ToTable("Tasks");
                 });
 
-            modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.TaskResult", b =>
+            modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.TaskIntern", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -304,7 +304,7 @@ namespace SWD_IMS.Migrations
 
                     b.HasIndex("TaskId");
 
-                    b.ToTable("TaskResults");
+                    b.ToTable("TaskInterns");
                 });
 
             modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.TrainingProgram", b =>
@@ -326,12 +326,18 @@ namespace SWD_IMS.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("Duration")
+                        .HasColumnType("int");
+
                     b.Property<int>("MentorId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly?>("StartDate")
+                        .HasColumnType("date");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
@@ -343,6 +349,45 @@ namespace SWD_IMS.Migrations
                     b.HasIndex("MentorId");
 
                     b.ToTable("TrainingPrograms");
+                });
+
+            modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.TrainingProgramIntern", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("InternId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Note")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Percentage")
+                        .HasColumnType("float");
+
+                    b.Property<int>("TrainingProgramId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InternId");
+
+                    b.HasIndex("TrainingProgramId");
+
+                    b.ToTable("TrainingProgramInterns");
                 });
 
             modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.User", b =>
@@ -388,45 +433,6 @@ namespace SWD_IMS.Migrations
                             Phone = "0000000000",
                             RoleId = 1
                         });
-                });
-
-            modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.WorkResult", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("InternId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Percentage")
-                        .HasColumnType("float");
-
-                    b.Property<int>("TrainingProgramId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InternId");
-
-                    b.HasIndex("TrainingProgramId");
-
-                    b.ToTable("WorkResults");
                 });
 
             modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.Application", b =>
@@ -492,16 +498,16 @@ namespace SWD_IMS.Migrations
                     b.Navigation("TrainingProgram");
                 });
 
-            modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.TaskResult", b =>
+            modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.TaskIntern", b =>
                 {
                     b.HasOne("SWD_IMS.src.Domain.Entities.Models.Intern", "Intern")
-                        .WithMany("TaskResults")
+                        .WithMany("TaskInterns")
                         .HasForeignKey("InternId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("SWD_IMS.src.Domain.Entities.Models.Task", "Task")
-                        .WithMany("TaskResults")
+                        .WithMany("TaskInterns")
                         .HasForeignKey("TaskId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -522,6 +528,21 @@ namespace SWD_IMS.Migrations
                     b.Navigation("Mentor");
                 });
 
+            modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.TrainingProgramIntern", b =>
+                {
+                    b.HasOne("SWD_IMS.src.Domain.Entities.Models.Intern", null)
+                        .WithMany("TrainingProgramInterns")
+                        .HasForeignKey("InternId");
+
+                    b.HasOne("SWD_IMS.src.Domain.Entities.Models.TrainingProgram", "TrainingProgram")
+                        .WithMany("TrainingProgramInterns")
+                        .HasForeignKey("TrainingProgramId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TrainingProgram");
+                });
+
             modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.User", b =>
                 {
                     b.HasOne("SWD_IMS.src.Domain.Entities.Models.Role", "Role")
@@ -533,21 +554,6 @@ namespace SWD_IMS.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.WorkResult", b =>
-                {
-                    b.HasOne("SWD_IMS.src.Domain.Entities.Models.Intern", null)
-                        .WithMany("WorkResults")
-                        .HasForeignKey("InternId");
-
-                    b.HasOne("SWD_IMS.src.Domain.Entities.Models.TrainingProgram", "TrainingProgram")
-                        .WithMany("WorkResults")
-                        .HasForeignKey("TrainingProgramId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TrainingProgram");
-                });
-
             modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.Application", b =>
                 {
                     b.Navigation("Interviews");
@@ -557,9 +563,9 @@ namespace SWD_IMS.Migrations
                 {
                     b.Navigation("Feedbacks");
 
-                    b.Navigation("TaskResults");
+                    b.Navigation("TaskInterns");
 
-                    b.Navigation("WorkResults");
+                    b.Navigation("TrainingProgramInterns");
                 });
 
             modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.JobPosition", b =>
@@ -574,7 +580,7 @@ namespace SWD_IMS.Migrations
 
             modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.Task", b =>
                 {
-                    b.Navigation("TaskResults");
+                    b.Navigation("TaskInterns");
                 });
 
             modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.TrainingProgram", b =>
@@ -583,7 +589,7 @@ namespace SWD_IMS.Migrations
 
                     b.Navigation("Tasks");
 
-                    b.Navigation("WorkResults");
+                    b.Navigation("TrainingProgramInterns");
                 });
 
             modelBuilder.Entity("SWD_IMS.src.Domain.Entities.Models.User", b =>

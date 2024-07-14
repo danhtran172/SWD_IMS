@@ -16,6 +16,6 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public int TrainingProgramId { get; set; }
 
         public TrainingProgram TrainingProgram { get; set; } = null!;
-        public List<TaskResult> TaskResults { get; set; } = new();
+        public List<TaskIntern> TaskInterns { get; set; } = new();
     }
 }

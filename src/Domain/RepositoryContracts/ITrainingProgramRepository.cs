@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using SWD_IMS.src.Application.DTO.TrainingProgramDTOs;
 using SWD_IMS.src.Domain.Entities.Models;
 
 namespace SWD_IMS.src.Domain.RepositoryContracts
@@ -13,5 +14,8 @@ namespace SWD_IMS.src.Domain.RepositoryContracts
         public Task<bool> CreateTrainingProgram(TrainingProgram trainingProgram);
         public Task<bool> UpdateTrainingProgram(TrainingProgram trainingProgram);
         public Task<bool> DeleteTrainingProgram(TrainingProgram trainingProgram);
+        public Task<IEnumerable<TrainingProgram>> GetTrainingProgramsByFilter(TrainingProgramFilterDTO filter);
+        public Task<IEnumerable<TrainingProgram>> GetTrainingProgramsByMentorId(int mentorId);
+
     }
 }
