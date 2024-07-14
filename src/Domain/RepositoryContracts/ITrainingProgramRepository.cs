@@ -14,8 +14,7 @@ namespace SWD_IMS.src.Domain.RepositoryContracts
         public Task<bool> CreateTrainingProgram(TrainingProgram trainingProgram);
         public Task<bool> UpdateTrainingProgram(TrainingProgram trainingProgram);
         public Task<bool> DeleteTrainingProgram(TrainingProgram trainingProgram);
-        public Task<IEnumerable<TrainingProgram>> GetTrainingProgramsByFilter(TrainingProgramFilterDTO filter);
-        public Task<IEnumerable<TrainingProgram>> GetTrainingProgramsByMentorId(int mentorId);
+        public Task<TrainingProgramList> GetTrainingProgramsByFilter(TrainingProgramFilterDTO filter);
 
     }
 }

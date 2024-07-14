@@ -96,18 +96,5 @@ namespace SWD_IMS.src.Application.Controller
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("mentor/{mentorId}")]
-        public async Task<IActionResult> GetTrainingProgramsByMentorId(int mentorId)
-        {
-            try
-            {
-                var response = await _trainingProgramService.GetTrainingProgramsByMentorId(mentorId);
-                return Ok(response);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
     }
 }

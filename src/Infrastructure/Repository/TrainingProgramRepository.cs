@@ -53,7 +53,7 @@ namespace SWD_IMS.src.Infrastructure.Repository
                 .FirstOrDefaultAsync(x => x.Id == id) ?? throw new Exception("Training Program not found");
         }
 
-        public async Task<IEnumerable<TrainingProgram>> GetTrainingProgramsByFilter(TrainingProgramFilterDTO filter)
+        public async Task<TrainingProgramList> GetTrainingProgramsByFilter(TrainingProgramFilterDTO filter)
         {
             var query = _context.TrainingPrograms
                 .Include(x => x.Mentor)
@@ -77,18 +77,21 @@ namespace SWD_IMS.src.Infrastructure.Repository
             {
                 query = query.Where(x => x.Duration == filter.Duration);
             }
-            return await query.ToListAsync();
-        }
-
-        public async Task<IEnumerable<TrainingProgram>> GetTrainingProgramsByMentorId(int mentorId)
-        {
-            var query = _context.TrainingPrograms
-                .Include(x => x.Mentor)
-                .Include(x => x.TrainingProgramInterns)
-                .Include(x => x.Tasks)
-                .Include(x => x.Feedbacks)
-                .Where(x => x.MentorId == mentorId);
-            return await query.ToListAsync();
+            if (filter.MentorId != null)
+            {
+                query = query.Where(x => x.MentorId == filter.MentorId);
+            }
+            var paginationList = query
+            .OrderByDescending(x => x.CreatedAt)
+            .Skip((filter.Page - 1) * filter.PageSize)
+            .Take(filter.PageSize)
+            .ToListAsync();
+            var listTrainingPrograms = new TrainingProgramList
+            {
+                TrainingPrograms = await paginationList,
+                TotalCount = await query.CountAsync()
+            };
+            return listTrainingPrograms;
         }
 
         public async Task<bool> UpdateTrainingProgram(TrainingProgram trainingProgram)

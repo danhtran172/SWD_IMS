@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using SWD_IMS.src.Application.DTO.Pagination;
 using SWD_IMS.src.Domain.Entities.Models;
 
 namespace SWD_IMS.src.Application.DTO.InternDTOs

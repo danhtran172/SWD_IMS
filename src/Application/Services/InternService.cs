@@ -94,7 +94,10 @@ namespace SWD_IMS.src.Application.Services
                     response.Result = new ResultDTO
                     {
                         Data = mappedIntern,
-                        Total = mappedIntern.Count
+                        PageInfo = new PageInfo
+                        {
+                            Total = mappedIntern.Count
+                        }
                     };
                     return response;
                 }
@@ -159,7 +162,10 @@ namespace SWD_IMS.src.Application.Services
                     response.Result = new ResultDTO
                     {
                         Data = mappedIntern,
-                        Total = mappedIntern.Count
+                        PageInfo = new PageInfo
+                        {
+                            Total = mappedIntern.Count
+                        }
                     };
                     return response;
                 }

@@ -22,4 +22,9 @@ namespace SWD_IMS.src.Domain.Entities.Models
         public List<Task> Tasks { get; set; } = new();
         public List<Feedback> Feedbacks { get; set; } = new();
     }
+    public class TrainingProgramList
+    {
+        public List<TrainingProgram> TrainingPrograms { get; set; } = new List<TrainingProgram>();
+        public int TotalCount { get; set; }
+    }
 }
