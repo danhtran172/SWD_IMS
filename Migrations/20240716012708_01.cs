@@ -286,7 +286,8 @@ namespace SWD_IMS.Migrations
                     { 1, null, "Admin" },
                     { 2, null, "Mentor" },
                     { 3, null, "Intern" },
-                    { 4, null, "HRManager" }
+                    { 4, null, "HRManager" },
+                    { 6, null, "Member" }
                 });
 
             migrationBuilder.InsertData(

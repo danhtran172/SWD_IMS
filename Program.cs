@@ -6,6 +6,9 @@ using SWD_IMS.src.Domain.ServiceContracts;
 using SWD_IMS.src.Infrastructure.Context;
 using SWD_IMS.src.Infrastructure.Repository;
 using System.Text.Json;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using SWD_IMS.src.Application.Jwt;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers().AddJsonOptions(opts =>
 {
     opts.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-});;
+}); ;
 
 // Add services to the container.
 // var types = AppDomain.CurrentDomain.GetAssemblies()
@@ -46,15 +49,19 @@ builder.Services.AddControllers().AddJsonOptions(opts =>
 builder.Services.AddScoped<ITrainingProgramRepository, TrainingProgramRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IInternRepository, InternRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 //Configure Service
 builder.Services.AddScoped<ITrainingProgramService, TrainingProgramService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IInternService, InternService>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 // Configue Connection String
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<SwdImsContext>(options => options.UseSqlServer(connectionString).LogTo(Console.WriteLine, LogLevel.Information));
-
-builder.Services.ConfigureCors();
+builder.Services.AddAuthorization();
+builder.Services.AddAuthentication("Bearer").AddJwtBearer();
+builder.Services.ConfigureCors(); 
 builder.Services.ConfigureIISIntegration();
 // Logger
 builder.Services.ConfigureLoggerService();
@@ -71,7 +78,34 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureReponseHandler();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+  c.SwaggerDoc("v1", new OpenApiInfo { Title = "SWD_IMS", Version = "v1" });
+
+  // Add a bearer token to Swagger
+  c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+  {
+    Description = "JWT Authorization header using the Bearer scheme",
+    Type = SecuritySchemeType.Http,
+    Scheme = "bearer"
+  });
+
+  // Require the bearer token for all API operations
+  c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+      {
+          new OpenApiSecurityScheme
+          {
+              Reference = new OpenApiReference
+              {
+                  Type = ReferenceType.SecurityScheme,
+                  Id = "Bearer"
+              }
+          },
+          new string[] {}
+      }
+    });
+});
 
 var app = builder.Build();
 

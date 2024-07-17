@@ -81,14 +81,14 @@ namespace SWD_IMS.src.Infrastructure.Repository
             {
                 query = query.Where(x => x.MentorId == filter.MentorId);
             }
-            var paginationList = query
+            var paginationList = await query
             .OrderByDescending(x => x.CreatedAt)
             .Skip((filter.Page - 1) * filter.PageSize)
             .Take(filter.PageSize)
             .ToListAsync();
             var trainingProgramList = new TrainingProgramList
             {
-                TrainingPrograms = await paginationList,
+                TrainingPrograms = paginationList,
                 TotalCount = await query.CountAsync()
             };
             return trainingProgramList;

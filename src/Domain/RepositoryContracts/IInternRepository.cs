@@ -15,6 +15,6 @@ namespace SWD_IMS.src.Domain.RepositoryContracts
         public Task<bool> UpdateIntern(Intern intern);
         public Task<bool> DeleteIntern(Intern intern);
         public Task<InternList> GetInternsByFilter(InternFilterDTO internFilter);
-
+        public Task<Intern> GetInternByEmail(string email);
     }
 }

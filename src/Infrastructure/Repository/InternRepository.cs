@@ -41,6 +41,11 @@ namespace SWD_IMS.src.Infrastructure.Repository
             return listInterns;
         }
 
+        public async Task<Intern> GetInternByEmail(string email)
+        {
+            return await _context.Interns.FirstOrDefaultAsync(x => x.Email == email) ?? throw new Exception("Intern not found");
+        }
+
         public async Task<Intern> GetInternById(int id)
         {
             return await _context.Interns

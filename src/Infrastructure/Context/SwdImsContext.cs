@@ -49,6 +49,11 @@ namespace SWD_IMS.src.Infrastructure.Context
                 {
                     RoleId = 4,
                     Name = "HRManager"
+                },
+                new Role
+                {
+                    RoleId = 6,
+                    Name = "Member"
                 }
             );
             modelBuilder.Entity<User>().HasData(

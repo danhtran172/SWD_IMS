@@ -12,7 +12,7 @@ using SWD_IMS.src.Infrastructure.Context;
 namespace SWD_IMS.Migrations
 {
     [DbContext(typeof(SwdImsContext))]
-    [Migration("20240714070259_01")]
+    [Migration("20240716012708_01")]
     partial class _01
     {
         /// <inheritdoc />
@@ -244,6 +244,11 @@ namespace SWD_IMS.Migrations
                         {
                             RoleId = 4,
                             Name = "HRManager"
+                        },
+                        new
+                        {
+                            RoleId = 6,
+                            Name = "Member"
                         });
                 });
 

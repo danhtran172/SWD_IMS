@@ -19,8 +19,6 @@ namespace SWD_IMS.src.Application.DTO.TrainingProgramDTOs
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public UserDTO Mentor { get; set; } = null!;
-        public List<TrainingProgramIntern> TrainingProgramInterns { get; set; } = new();
-        public List<TaskDTO> Tasks { get; set; } = new();
         public List<Feedback> Feedbacks { get; set; } = new();
         public DateOnly? StartDate { get; set; }
         public int? Duration { get; set; }

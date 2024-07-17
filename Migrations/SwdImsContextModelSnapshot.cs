@@ -241,6 +241,11 @@ namespace SWD_IMS.Migrations
                         {
                             RoleId = 4,
                             Name = "HRManager"
+                        },
+                        new
+                        {
+                            RoleId = 6,
+                            Name = "Member"
                         });
                 });
 

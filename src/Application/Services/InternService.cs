@@ -27,6 +27,7 @@ namespace SWD_IMS.src.Application.Services
             var response = new ResponseDTO();
             try
             {
+
                 var mappedIntern = _mapper.Map<Intern>(req);
                 var result = await _internRepository.CreateIntern(mappedIntern);
                 if (result)
@@ -98,6 +99,38 @@ namespace SWD_IMS.src.Application.Services
                         {
                             Total = mappedIntern.Count
                         }
+                    };
+                    return response;
+                }
+                else
+                {
+                    response.StatusCode = 404;
+                    response.Message = "Intern fetched failed";
+                    response.IsSuccess = false;
+                    return response;
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public async Task<ResponseDTO> GetInternByEmail(string email)
+        {
+            var response = new ResponseDTO();
+            try
+            {
+                var intern = await _internRepository.GetInternByEmail(email);
+                var mappedIntern = _mapper.Map<InternDTO>(intern);
+                if (mappedIntern != null)
+                {
+                    response.StatusCode = 200;
+                    response.Message = "Intern fetched successfully";
+                    response.IsSuccess = true;
+                    response.Result = new ResultDTO
+                    {
+                        Data = mappedIntern,
                     };
                     return response;
                 }

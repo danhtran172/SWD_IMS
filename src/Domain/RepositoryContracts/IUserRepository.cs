@@ -15,7 +15,9 @@ namespace SWD_IMS.src.Domain.RepositoryContracts
         public Task<bool> DeleteUser(User user);
         public Task<User> GetUserByEmail(string email);
         public Task<User> GetUserById(int id);
-        public Task<IEnumerable<User>> GetUsersByFilter(UserFilterDTO filter);
-        
+        public Task<UserList> GetUsersByFilter(UserFilterDTO filter);
+        public Task<bool> UpdatePassword(User user, string newPassword);
+        public Task<bool> UpdateUserTrainingPrograms(User user, List<TrainingProgram> trainingPrograms);
+        public Task<bool> CheckEmailExist(string email);
     }
 }

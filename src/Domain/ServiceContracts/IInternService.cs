@@ -16,5 +16,6 @@ namespace SWD_IMS.src.Domain.ServiceContracts
         public Task<ResponseDTO> UpdateIntern(InternUpdateDTO req, int id);
         public Task<ResponseDTO> DeleteIntern(int id);
         public Task<ResponseDTO> GetInternsByFilter(InternFilterDTO internFilter);
+        public Task<ResponseDTO> GetInternByEmail(string email);
     }
 }
